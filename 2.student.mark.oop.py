@@ -39,20 +39,37 @@ class Management_system(Course, Student):
         self.__student = {}
         self.__course = {}
         
-    def add_student(self, id, name, DoB):
-        self.__student[id] = Student(id, name, DoB)
+    def add_student(self):
+        S_num = int(input("Enter number of STUDENT: "))
+        for i in range(S_num):
+            print(f"Enter STUDENT info {i+1}")
+            S_id = input("id: ")
+            S_name = input("Name: ")
+            S_DoB = input("DoB: ")
+            print()
+            self.__student[S_id] = Student(S_id, S_name, S_DoB)
         
-    def add_course(self, c_id, c_name):
-        self.__course[c_id] = Course(c_id, c_name)
-        for i in self.__student:
-            self.__student[i].add_course(c_id, c_name)
+    def add_course(self):
+        C_num = int(input("Enter number of COURSE: "))
+        for i in range(C_num):
+            print(f"Enter COURSE info {i+1}")
+            C_id = input("id: ")
+            C_name = input("Name: ")
+            print()
+            self.__course[C_id] = Course(C_id, C_name)
+            for i in self.__student:
+                self.__student[i].add_course(C_id, C_name)
         
-    def add_mark(self, course_id):
+    def add_mark(self):
+        course_id = input("Enter a COURSE ID to input student marks: ")
         for i in self.__student:
             mark = input(f"Enter {self.__student[i].get_name()}'s mark: ")
             self.__student[i].add_mark(course_id, mark)
         
-    def show_mark(self, course_id):
+    def show_mark(self):
+        print()
+        course_id = input("Enter a COURSE ID you want to see the marks: ")
+        print()
         print(f"DISPLAYING STUDENT MARKS IN COURSE: {self.__course[course_id].get_name()}")
         for i in self.__student:
             print(f"{self.__student[i].get_name()}: {self.__student[i].get_mark(course_id)}")
@@ -73,34 +90,20 @@ class Management_system(Course, Student):
             print(f"{x}) {self.__student[i].get_name()}")
             x += 1
 
+def main():
 
+    mark_management = Management_system()
 
+    mark_management.add_student()
 
-mark_management = Management_system()
+    mark_management.add_course()
 
-S_num = int(input("Enter number of STUDENT: "))
-for i in range(S_num):
-    print(f"Enter STUDENT info {i+1}")
-    S_id = input("id: ")
-    S_name = input("Name: ")
-    S_DoB = input("DoB: ")
-    print()
-    mark_management.add_student(S_id, S_name, S_DoB)
+    mark_management.add_mark()
 
-C_num = int(input("Enter number of COURSE: "))
-for i in range(C_num):
-    print(f"Enter COURSE info {i+1}")
-    C_id = input("id: ")
-    C_name = input("Name: ")
-    print()
-    mark_management.add_course(C_id, C_name)
+    mark_management.list_course()
 
-course_id = input("Enter a COURSE ID to input student marks: ")
-mark_management.add_mark(course_id)
+    mark_management.list_student()
 
-mark_management.list_course()
+    mark_management.show_mark()
 
-mark_management.list_student()
-
-course_id = input("Enter a COURSE ID you want to see the marks: ")
-mark_management.show_mark(course_id)
+main()
