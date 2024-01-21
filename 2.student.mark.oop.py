@@ -94,16 +94,76 @@ def main():
 
     mark_management = Management_system()
 
-    mark_management.add_student()
+    choose = ("""0. Exit
+    1. Input STUDENT
+    2. Input COURSE
+    3. Select a course ID and input student marks
+    4. Display STUDENT list
+    5. Display COURSE list
+    6. show mark from a chosen course
+    9. show this list again""")
 
-    mark_management.add_course()
+    print("---")
+    print("What do you want to do?")
+    print("---")
+    print(choose)
+    print("---")
 
-    mark_management.add_mark()
+    done = []
+    
+    again = True
+    
+    while again == True: 
+        user = input("CHOOSE AN OPTION: ")
+        print()
+        
+        if user == "0":
+            again = False
+        
+        elif user == "1":
+            if "1" in done:
+                print("You have already input STUDENT\n")
+            else:
+                mark_management.add_student()
+                print()
+                done.append("1")
+        
+        elif user == "2":
+            if "2" in done:
+                print("you have already input COURSE\n")
+            else:
+                mark_management.add_course()
+                done.append("2")
 
-    mark_management.list_course()
+        elif user == "3":
+            if "1" and "2" in done:
+                mark_management.add_mark()
+            else:
+                print("you must input STUDENT and COURSE first\n")
 
-    mark_management.list_student()
+        elif user == "4":
+            if "1" in done:
+                mark_management.list_student()
+            else:
+                print("you haven't input any STUDENT\n")
 
-    mark_management.show_mark()
+        elif user == "5":
+            if "2" in done: 
+                mark_management.list_course()
+            else:
+                print("you haven't input any COURSE\n")
+
+        elif user == "6":
+            if "1" and "2" in done:
+                mark_management.show_mark()
+            else:
+                print("you must input STUDENT and COURSE first\n")
+        elif user == "9":
+                print("---")
+                print(choose)
+                print("---")    
+
+        else:
+            print("Please enter a valid option\n")
 
 main()
