@@ -2,6 +2,7 @@ from Course import Course
 from Student import Student
 import zipfile 
 from pathlib import Path
+import os
 
 class Management_system():
     def __init__(self):
@@ -66,17 +67,29 @@ class Management_system():
 
     def list_course(self):
         print("SHOWING COURSE(s)")
-        x = 1
-        for i in self.__course: 
-            print(f"{x}) {self.__course[i].get_id()} - {self.__course[i].get_name()}")
-            x +=1
+        # x = 1
+        # for i in self.__course: 
+        #     print(f"{x}) {self.__course[i].get_id()} - {self.__course[i].get_name()}")
+        #     x +=1
+        try:
+            with open("course.txt","r") as file:
+                data = file.read()
+                print(data)
+        except:
+            print("no course.txt found")
 
     def list_student(self):
         print("SHOWING STUDENT(s)")
-        x = 1
-        for i in self.__student:
-            print(f"{x}) {self.__student[i].get_id()} - {self.__student[i].get_name()}")
-            x += 1
+        # x = 1
+        # for i in self.__student:
+        #     print(f"{x}) {self.__student[i].get_id()} - {self.__student[i].get_name()}")
+        #     x += 1
+        try:
+            with open("student.txt", "r") as file:
+                data = file.read()
+                print(data)
+        except:
+            print("no student.txt found")
 
     def GPA_cal(self,S_id):
         tot_mark = 0
@@ -85,7 +98,6 @@ class Management_system():
             print("INVALID STUDENT ID")
         else:
             for i in self.__student[S_id].get_course():
-                if i == None: return False
                 if self.__student[S_id].get_course()[i]["mark"] == -1:
                     print(f"Haven't input COURSE '{self.__student[S_id].get_course()[i]["name"]}' mark for {self.__student[S_id].get_name()}")
                     return False
@@ -114,7 +126,20 @@ class Management_system():
             x += 1
 
     def Zipfile(self):
-        path = Path("./students.dat")
-        if path.is_file() != True:
-            student_system =  zipfile.ZipFile("students.dat", "w")
-            student_system.close()
+        # path = Path("./students.dat")
+        # if path.is_file() != True:
+        student_system =  zipfile.ZipFile("students.dat", "w")
+        try: student_system.write("student.txt")
+        except: print("zipfile: no student.txt found")
+        try: student_system.write("course.txt")
+        except: print("zipfile: no course.txt found")
+        try: student_system.write("marks.txt")
+        except: print("zipfile: no marks.txt found")
+        student_system.close()
+
+        try: os.remove("student.txt")
+        except: print("remove: no student.txt found")
+        try: os.remove("course.txt")
+        except: print("remove: no course.txt found")
+        try: os.remove("marks.txt")
+        except: print("remove: no marks.txt found")

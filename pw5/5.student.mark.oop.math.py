@@ -1,7 +1,15 @@
 from Management_system import Management_system
-
+import zipfile
+import os
 
 mark_management = Management_system()
+
+try:
+    with zipfile.ZipFile("students.dat", 'r') as de_zip:
+        de_zip.extractall()
+except:
+    print("cannot decompress")
+os.remove("students.dat")
 
 choose = ("""0. Exit
     1. Input STUDENT
